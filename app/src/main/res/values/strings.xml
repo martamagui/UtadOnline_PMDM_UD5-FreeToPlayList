@@ -1,5 +1,19 @@
 <resources>
     <string name="app_name">FreeToPlayWishlist</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="login_title">Login</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_create_account">Aun no estoy registrado</string>
+    <string name="login_continue_button">Continuar</string>
+
+    <string name="sign_up_title">Crear cuenta</string>
+    <string name="sign_up_email_hint">Email</string>
+    <string name="sign_up_name_hint">Nombre</string>
+    <string name="sign_up_password_hint">Contraseña</string>
+    <string name="sign_up_age_hint">Password</string>
+    <string name="sign_up_button">Continuar</string>
+
+
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="viewTitle">
+        <item name="android:textColor">@color/md_theme_dark_onSurface</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+</resources>

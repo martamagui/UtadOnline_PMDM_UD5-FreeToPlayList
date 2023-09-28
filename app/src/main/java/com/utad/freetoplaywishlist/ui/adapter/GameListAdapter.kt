@@ -11,9 +11,6 @@ import com.utad.freetoplaywishlist.network.model.GameResponse
 class GameListAdapter :
     ListAdapter<GameResponse, GameListAdapter.GameViewHolder>(GameItemCallback) {
 
-
-    inner class GameViewHolder(val binding: ItemGameBinding) : RecyclerView.ViewHolder(binding.root)
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemGameBinding.inflate(inflater, parent, false)
@@ -24,6 +21,8 @@ class GameListAdapter :
         val item = getItem(position)
         //TODO hacer diseño del item
     }
+
+    inner class GameViewHolder(binding: ItemGameBinding) : RecyclerView.ViewHolder(binding.root)
 }
 
 object GameItemCallback : DiffUtil.ItemCallback<GameResponse>() {
