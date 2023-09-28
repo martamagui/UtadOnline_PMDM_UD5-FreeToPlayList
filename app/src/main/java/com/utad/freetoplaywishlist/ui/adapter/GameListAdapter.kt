@@ -5,10 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.utad.freetoplaywishlist.R
 import com.utad.freetoplaywishlist.databinding.ItemGameBinding
 import com.utad.freetoplaywishlist.network.model.GameResponse
 
-class GameListAdapter :
+class GameListAdapter(val navigateToDetail: (id: Int) -> Unit) :
     ListAdapter<GameResponse, GameListAdapter.GameViewHolder>(GameItemCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
@@ -19,10 +21,21 @@ class GameListAdapter :
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
         val item = getItem(position)
-        //TODO hacer diseño del item
+
+        with(holder) {
+            binding.root.setOnClickListener { navigateToDetail(item.id) }
+            binding.tvGameGenre.text = item.genre
+            binding.tvTitle.text = item.title
+            binding.tvShortDescription.text = item.shortDescription
+
+            Glide.with(binding.ivGame)
+                .load(item.thumbnail)
+                .placeholder(R.drawable.bg_placeholder)
+                .into(binding.ivGame)
+        }
     }
 
-    inner class GameViewHolder(binding: ItemGameBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class GameViewHolder(val binding: ItemGameBinding) : RecyclerView.ViewHolder(binding.root)
 }
 
 object GameItemCallback : DiffUtil.ItemCallback<GameResponse>() {

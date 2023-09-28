@@ -5,7 +5,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
-class EmailAndPasswordAuthenticationManager {
+class AuthenticationManager {
 
     private val auth = Firebase.auth
 

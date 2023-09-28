@@ -7,6 +7,7 @@
     <string name="login_password_hint">Password</string>
     <string name="login_create_account">Aun no estoy registrado</string>
     <string name="login_continue_button">Continuar</string>
+    <string name="login_invalid_data">Por favor, rellena todos los datos.</string>
 
     <string name="sign_up_title">Crear cuenta</string>
     <string name="sign_up_email_hint">Email</string>
@@ -14,6 +15,16 @@
     <string name="sign_up_password_hint">Contraseña</string>
     <string name="sign_up_age_hint">Password</string>
     <string name="sign_up_button">Continuar</string>
+
+    <string name="home_categories_title">Categorías</string>
+    <string name="home_category_mmorpg">mmorpg</string>
+    <string name="home_category_shooter">shooter</string>
+    <string name="home_category_strategy">strategy</string>
+    <string name="home_category_moba">moba</string>
+    <string name="home_category_racing">racing</string>
+    <string name="home_category_sports">sports</string>
+    <string name="home_category_social">social</string>
+    <string name="home_category_sandbox">sandbox</string>
 
 
 </resources>
