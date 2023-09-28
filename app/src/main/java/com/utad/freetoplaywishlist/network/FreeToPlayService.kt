@@ -1,6 +1,5 @@
 package com.utad.freetoplaywishlist.network
 
-import com.google.firebase.database.core.Platform
 import com.utad.freetoplaywishlist.network.model.GameDetailResponse
 import com.utad.freetoplaywishlist.network.model.GameResponse
 import retrofit2.Response
