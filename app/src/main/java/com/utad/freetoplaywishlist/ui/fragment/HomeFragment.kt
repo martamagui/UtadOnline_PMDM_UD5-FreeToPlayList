@@ -1,5 +1,6 @@
 package com.utad.freetoplaywishlist.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.view.forEach
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -73,9 +75,7 @@ class HomeFragment : Fragment() {
         binding.cgCategories.setOnCheckedChangeListener { group, checkedId ->
             val current = group.findViewById<Chip>(checkedId)
             getFilteredGames(current.text.toString())
-
         }
-
     }
 
     private fun getFilteredGames(category: String) {
@@ -99,6 +99,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToDetail(id: Int) {
-        TODO("Not yet implemented")
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(id)
+        findNavController().navigate(action)
     }
 }
