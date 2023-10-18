@@ -73,8 +73,16 @@ class HomeFragment : Fragment() {
         binding.rvGames.adapter = adapter
 
         binding.cgCategories.setOnCheckedChangeListener { group, checkedId ->
+            //Volvemos a lo alto de la lista
+            binding.rvGames.scrollTo(0, 0)
             val current = group.findViewById<Chip>(checkedId)
-            getFilteredGames(current.text.toString())
+            //Si hay categoría seleccionada, llamamos a la request de juegos filtrados
+            //si no a la llamada general
+            if (current != null) {
+                getFilteredGames(current.text.toString())
+            } else {
+                getGamesRequest()
+            }
         }
     }
 

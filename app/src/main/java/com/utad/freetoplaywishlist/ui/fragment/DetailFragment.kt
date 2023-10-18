@@ -11,6 +11,8 @@ import androidx.navigation.fragment.navArgs
 import com.utad.freetoplaywishlist.R
 import com.utad.freetoplaywishlist.databinding.FragmentDetailBinding
 import com.utad.freetoplaywishlist.network.FreeToPlayApi
+import com.utad.freetoplaywishlist.network.model.GameDetailResponse
+import com.utad.freetoplaywishlist.utils.loadPicture
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -43,7 +45,7 @@ class DetailFragment : Fragment() {
             if (response.isSuccessful && response.body() != null) {
                 Log.e(" DetailFrg", "Response: ${response.code()}, errorbody: ${response.body()}")
                 withContext(Dispatchers.Main) {
-                    //TODO pintar la vista
+                    showGameData(response.body()!!)
                 }
             } else {
                 Log.e(" DetailFrg", "Error: ${response.code()}, errorbody: ${response.errorBody()}")
@@ -52,5 +54,14 @@ class DetailFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showGameData(body: GameDetailResponse) {
+        binding.ivGameDetail.loadPicture(body.thumbnail)
+        binding.tvGameNameDetail.text = body.title
+        binding.tvGameGenreDetail.text = body.genre
+        binding.tvGamePlatformDetail.text = body.platform
+        binding.tvGamePublisherDetail.text = body.publisher
+        binding.tvGameDescriptionDetail.text = body.description
     }
 }
