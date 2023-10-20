@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.EmailAuthCredential
 import com.utad.freetoplaywishlist.R
 import com.utad.freetoplaywishlist.databinding.FragmentLoginBinding
@@ -42,13 +43,8 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             //doLogin()
             navigateHome()
-
         }
         binding.btnCreateAccocunt.setOnClickListener { goToSignUp() }
-    }
-
-    private fun goToSignUp() {
-
     }
 
     private fun doLogin() {
@@ -78,6 +74,11 @@ class LoginFragment : Fragment() {
 
     private fun isDataValid(email: String, password: String): Boolean {
         return email.isNotEmpty() && password.isNotEmpty()
+    }
+
+    private fun goToSignUp() {
+        val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
+        findNavController().navigate(action)
     }
 
 }

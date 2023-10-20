@@ -37,24 +37,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_sign_up_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="@+id/til_sign_up_age"
-        app:layout_constraintStart_toStartOf="@+id/til_sign_up_age"
-        app:layout_constraintTop_toBottomOf="@+id/til_sign_up_age"
-        app:passwordToggleDrawable="@drawable/ic_visibility">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_sign_up_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sign_up_password_hint"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_sign_up_age"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -69,6 +51,25 @@
             android:layout_height="wrap_content"
             android:hint="@string/sign_up_age_hint"
             android:inputType="number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_sign_up_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="@+id/til_sign_up_age"
+        app:layout_constraintStart_toStartOf="@+id/til_sign_up_age"
+        app:layout_constraintTop_toBottomOf="@+id/til_sign_up_age"
+        app:passwordToggleDrawable="@drawable/ic_visibility">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_sign_up_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sign_up_password_hint"
+
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
