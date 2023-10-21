@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.utad.freetoplaywishlist.R
@@ -23,6 +24,7 @@ class DetailFragment : Fragment() {
     private lateinit var _binding: FragmentDetailBinding
     private val binding: FragmentDetailBinding get() = _binding
 
+    //Guardamos los argumentos de nuestra navegación para recuperar el id del juego clicado
     private val args: DetailFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -36,24 +38,14 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Recuperamos de los argumentos de navegación del NavigationComponent el id del viedeojuego
         getGameDetail(args.id)
     }
 
-    private fun getGameDetail(id: Int) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val response = FreeToPlayApi.service.getGameDetails(id)
-            if (response.isSuccessful && response.body() != null) {
-                Log.e(" DetailFrg", "Response: ${response.code()}, errorbody: ${response.body()}")
-                withContext(Dispatchers.Main) {
-                    showGameData(response.body()!!)
-                }
-            } else {
-                Log.e(" DetailFrg", "Error: ${response.code()}, errorbody: ${response.errorBody()}")
-                withContext(Dispatchers.Main) {
-                    //todo
-                }
-            }
-        }
+    //region --- UI
+    private fun showRequestError(errorCode: String) {
+        val message = getString(R.string.detail_request_error_message, errorCode)
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showGameData(body: GameDetailResponse) {
@@ -64,4 +56,31 @@ class DetailFragment : Fragment() {
         binding.tvGamePublisherDetail.text = body.publisher
         binding.tvGameDescriptionDetail.text = body.description
     }
+    //endregion --- UI
+
+    //region --- Request Retrofit
+    private fun getGameDetail(id: Int) {
+        //Lanzamos una corrutina para llamar a el servicio del detalle
+        lifecycleScope.launch(Dispatchers.IO) {
+            //Llamamos al servicio del detalle
+            val response = FreeToPlayApi.service.getGameDetails(id)
+            //Si la llamada es exitosa y trae información en el body
+            if (response.isSuccessful && response.body() != null) {
+                //Accedemos al Hilo principal para pintar la respuesta
+                withContext(Dispatchers.Main) {
+                    showGameData(response.body()!!)
+                }
+            } else {
+                //Si da error, accedemos al hilo principial y mostramos que hubo un error en la llamada
+                Log.e(" DetailFrg", "Error: ${response.code()}, errorbody: ${response.errorBody()}")
+                withContext(Dispatchers.Main) {
+                    val errorCode = response.code()
+                    showRequestError("$errorCode")
+                }
+            }
+        }
+    }
+    //endregion --- Request Retrofit
+
+
 }

@@ -47,5 +47,4 @@ object GameItemCallback : DiffUtil.ItemCallback<GameResponse>() {
     override fun areContentsTheSame(oldItem: GameResponse, newItem: GameResponse): Boolean {
         return oldItem.thumbnail == newItem.thumbnail
     }
-
 }

@@ -8,6 +8,7 @@
     <string name="login_create_account">Aun no estoy registrado</string>
     <string name="login_continue_button">Continuar</string>
     <string name="login_invalid_data">Por favor, rellena todos los datos.</string>
+    <string name="login_invalid_credentials">Credenciales incorrectos.</string>
 
     <string name="sign_up_title">Crear cuenta</string>
     <string name="sign_up_email_hint">Email</string>
@@ -28,9 +29,6 @@
     <string name="home_category_sports">sports</string>
     <string name="home_category_social">social</string>
     <string name="home_category_sandbox">sandbox</string>
-
-
-
-
+    <string name="detail_request_error_message">Los datos no pudieron ser guardados, error con código: %s</string>
 
 </resources>

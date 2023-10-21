@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.utad.freetoplaywishlist.R
 import com.utad.freetoplaywishlist.databinding.FragmentSignUpBinding
 import com.utad.freetoplaywishlist.firebase.authentification.AuthenticationManager
@@ -15,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SignUpFragment : Fragment() {
+class SignUpFragment: Fragment() {
 
     private lateinit var _binding: FragmentSignUpBinding
     private val binding: FragmentSignUpBinding get() = _binding
@@ -30,21 +31,21 @@ class SignUpFragment : Fragment() {
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setClicks()
     }
 
+    //region --- UI
     private fun setClicks() {
         binding.btnLogin.setOnClickListener {
             doSignUp()
         }
     }
+    //region --- UI
 
-    private fun validateData(email: String?, password: String?, age: Int?): Boolean {
-        return email != null && email.isNotEmpty() && password != null && password.isNotEmpty() && age != null
-    }
 
+    //region --- Firebase
     private fun doSignUp() {
         val age = binding.etSignUpAge.text.toString().toInt()
         val email = binding.etSignUpEmail.text.toString()
@@ -66,11 +67,19 @@ class SignUpFragment : Fragment() {
                         getString(R.string.sign_up_success_firebase_message),
                         Toast.LENGTH_SHORT
                     ).show()
+                    findNavController().popBackStack()
                 } else {
                     showMessage(getString(R.string.sign_up_error_firebase_message))
                 }
             }
         }
+    }
+    //endregion --- Firebase
+
+
+    //region --- Otros
+    private fun validateData(email: String?, password: String?, age: Int?): Boolean {
+        return email != null && email.isNotEmpty() && password != null && password.isNotEmpty() && age != null
     }
 
     private fun showMessage(message: String) {
@@ -84,5 +93,5 @@ class SignUpFragment : Fragment() {
             }
         builder.create().show()
     }
-
+    //endregion --- Otros
 }
