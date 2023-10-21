@@ -1,4 +1,4 @@
-package com.utad.freetoplaylist.ui.fragment
+package com.utad.freetoplaylist.ui.fragment.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +21,7 @@ import com.utad.freetoplaylist.network.FreeToPlayApi
 import com.utad.freetoplaylist.ui.activity.MainActivity
 import com.utad.freetoplaylist.ui.adapter.GameListAdapter
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -29,12 +33,8 @@ class HomeFragment : Fragment() {
     //Adapter para nuestra RecyclerView
     private val adapter: GameListAdapter = GameListAdapter { id -> navigateToDetail(id) }
 
-    //Creamos una variable que inicializaremos en el onCreate para el DataStoreManager
-    private lateinit var dataStoreManager: DataStoreManager
-
-    //AuthManager
-    private val authManager: AuthenticationManager = AuthenticationManager()
-
+    //ViewModel
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,9 +47,54 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataStoreManager = DataStoreManager(requireContext())
         setUI()
-        getGamesRequest()
+        observeViewModelStates()
+        viewModel.getGamesRequest()
+    }
+
+    private fun observeViewModelStatesWithLiveData() {
+      /*
+        //No hay que lanzar una corrutina
+        viewModel.homeState.observe(viewLifecycleOwner){ state->
+            //Tu código para actualizar la vista con los valores del estado
+        }
+       */
+    }
+
+
+    private fun observeViewModelStates() {
+        lifecycleScope.launch {
+            viewModel.homeState.collect { state ->
+                if (state.isLoading) {
+                    binding.pbHome.visibility = View.VISIBLE
+                } else {
+                    binding.pbHome.visibility = View.GONE
+                }
+
+                if (state.gameList != null) {
+                    if (adapter != null) {
+                        adapter.submitList(state.gameList)
+                    }
+                }
+
+                if (state.errorMessage != null) {
+                    Toast.makeText(requireContext(), state.errorMessage, Toast.LENGTH_SHORT).show()
+                }
+
+                if(state.isLoggedOut){
+                    goToLogin()
+                }
+
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.isLoggedOut.collect{isLoggedOut->
+                if(isLoggedOut){
+                    goToLogin()
+                }
+            }
+        }
     }
 
     //region --- UI
@@ -65,73 +110,17 @@ class HomeFragment : Fragment() {
             //Si hay categoría seleccionada, llamamos a la request de juegos filtrados
             //si no a la llamada general
             if (current != null) {
-                getFilteredGames(current.text.toString())
+                viewModel.getFilteredGames(current.text.toString())
             } else {
-                getGamesRequest()
+                viewModel.getGamesRequest()
             }
         }
 
         binding.fabLogOut.setOnClickListener {
-            logOut()
+            viewModel.logOut(requireContext())
         }
     }
     //endregion --- UI
-
-    //region --- Request
-    private fun getGamesRequest() {
-        binding.pbHome.visibility = View.VISIBLE
-        lifecycleScope.launch(Dispatchers.IO) {
-            val response = FreeToPlayApi.service.getGames()
-            if (response.isSuccessful && response.body() != null
-                && response.body()!!.isNotEmpty()
-            ) {
-                withContext(Dispatchers.Main) {
-                    adapter.submitList(response.body())
-                    binding.pbHome.visibility = View.GONE
-                }
-            } else {
-                Log.e("HomeFrg", "Error: ${response.code()}, errorbody: ${response.errorBody()}")
-                withContext(Dispatchers.Main) {
-                    adapter.submitList(response.body())
-                    binding.pbHome.visibility = View.GONE
-                }
-            }
-        }
-    }
-
-    private fun getFilteredGames(category: String) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val response = FreeToPlayApi.service.getGamesByCategory(category)
-            if (response.isSuccessful && response.body() != null
-                && response.body()!!.isNotEmpty()
-            ) {
-                withContext(Dispatchers.Main) {
-                    adapter.submitList(response.body())
-                    binding.pbHome.visibility = View.GONE
-                }
-            } else {
-                Log.e("HomeFrg", "Error: ${response.code()}, errorbody: ${response.errorBody()}")
-                withContext(Dispatchers.Main) {
-                    adapter.submitList(response.body())
-                    binding.pbHome.visibility = View.GONE
-                }
-            }
-        }
-    }
-    //endregion --- Request
-
-    //region --- Firebase
-    private fun logOut() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            //Hacemos log out en el DataStore y firebase
-            authManager.signOut()
-            dataStoreManager.logOut()
-            withContext(Dispatchers.Main) {
-                goToLogin()
-            }
-        }
-    }
-    //endregion --- Firebase
 
     //region --- Navegación
     private fun navigateToDetail(id: Int) {
