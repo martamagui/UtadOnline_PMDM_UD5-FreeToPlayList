@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.utad.freetoplaylist.R
 import com.utad.freetoplaylist.databinding.ItemGameBinding
-import com.utad.freetoplaylist.network.model.GameResponse
+import com.utad.freetoplaylist.data.network.model.GameResponse
 
 class GameListAdapter(val navigateToDetail: (id: Int) -> Unit) :
     ListAdapter<GameResponse, GameListAdapter.GameViewHolder>(GameItemCallback) {
