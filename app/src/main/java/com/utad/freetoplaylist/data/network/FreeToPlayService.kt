@@ -1,7 +1,7 @@
-package com.utad.freetoplaylist.network
+package com.utad.freetoplaylist.data.network
 
-import com.utad.freetoplaylist.network.model.GameDetailResponse
-import com.utad.freetoplaylist.network.model.GameResponse
+import com.utad.freetoplaylist.data.network.model.GameDetailResponse
+import com.utad.freetoplaylist.data.network.model.GameResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

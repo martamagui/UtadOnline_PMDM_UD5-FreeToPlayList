@@ -1,4 +1,4 @@
-package com.utad.freetoplaylist.network
+package com.utad.freetoplaylist.data.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

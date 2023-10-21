@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.utad.freetoplaylist.R
 import com.utad.freetoplaylist.databinding.FragmentSignUpBinding
-import com.utad.freetoplaylist.firebase.authentification.AuthenticationManager
+import com.utad.freetoplaylist.data.firebase.AuthenticationManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

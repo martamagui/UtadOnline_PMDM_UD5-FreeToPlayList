@@ -1,4 +1,4 @@
-package com.utad.freetoplaylist.data_store
+package com.utad.freetoplaylist.data.data_store
 
 import android.content.Context
 import androidx.datastore.core.DataStore

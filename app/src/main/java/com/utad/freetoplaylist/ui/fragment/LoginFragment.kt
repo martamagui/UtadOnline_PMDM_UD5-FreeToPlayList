@@ -10,9 +10,9 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.utad.freetoplaylist.R
-import com.utad.freetoplaylist.data_store.DataStoreManager
+import com.utad.freetoplaylist.data.data_store.DataStoreManager
 import com.utad.freetoplaylist.databinding.FragmentLoginBinding
-import com.utad.freetoplaylist.firebase.authentification.AuthenticationManager
+import com.utad.freetoplaylist.data.firebase.AuthenticationManager
 import com.utad.freetoplaylist.ui.activity.HomeActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.utad.freetoplaylist.R
 import com.utad.freetoplaylist.databinding.FragmentDetailBinding
-import com.utad.freetoplaylist.network.FreeToPlayApi
-import com.utad.freetoplaylist.network.model.GameDetailResponse
+import com.utad.freetoplaylist.data.network.FreeToPlayApi
+import com.utad.freetoplaylist.data.network.model.GameDetailResponse
 import com.utad.freetoplaylist.utils.loadPicture
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

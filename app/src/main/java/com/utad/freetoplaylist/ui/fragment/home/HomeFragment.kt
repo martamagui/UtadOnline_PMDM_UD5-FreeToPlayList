@@ -2,28 +2,20 @@ package com.utad.freetoplaylist.ui.fragment.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
-import com.utad.freetoplaylist.data_store.DataStoreManager
 import com.utad.freetoplaylist.databinding.FragmentHomeBinding
-import com.utad.freetoplaylist.firebase.authentification.AuthenticationManager
-import com.utad.freetoplaylist.network.FreeToPlayApi
 import com.utad.freetoplaylist.ui.activity.MainActivity
 import com.utad.freetoplaylist.ui.adapter.GameListAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
@@ -60,7 +52,6 @@ class HomeFragment : Fragment() {
         }
        */
     }
-
 
     private fun observeViewModelStates() {
         lifecycleScope.launch {

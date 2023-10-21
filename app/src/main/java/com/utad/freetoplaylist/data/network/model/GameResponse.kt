@@ -1,20 +1,16 @@
-package com.utad.freetoplaylist.network.model
+package com.utad.freetoplaylist.data.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class GameDetailResponse(
+data class GameResponse(
     @SerializedName("id")
     val id: Int,
     @SerializedName("title")
     val title: String,
     @SerializedName("thumbnail")
     val thumbnail: String,
-    @SerializedName("status")
-    val status: String,
     @SerializedName("short_description")
     val shortDescription: String,
-    @SerializedName("description")
-    val description: String,
     @SerializedName("game_url")
     val gameUrl: String,
     @SerializedName("genre")
@@ -28,8 +24,5 @@ data class GameDetailResponse(
     @SerializedName("release_date")
     val releaseDate: String,
     @SerializedName("freetogame_profile_url")
-    val freeToGameProfileUrl: String,
-    @SerializedName("minimum_system_requirements")
-    val minimumSystemRequirements: MinimumSystemRequirements,
-    @SerializedName("screenshots") val screenshots: List<Screenshot>
+    val freeToGameProfileUrl: String
 )

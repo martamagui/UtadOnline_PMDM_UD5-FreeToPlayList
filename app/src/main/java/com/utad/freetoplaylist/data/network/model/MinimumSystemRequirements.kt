@@ -1,4 +1,4 @@
-package com.utad.freetoplaylist.network.model
+package com.utad.freetoplaylist.data.network.model
 
 import com.google.gson.annotations.SerializedName
 

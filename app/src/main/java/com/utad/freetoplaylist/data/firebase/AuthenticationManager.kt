@@ -1,4 +1,4 @@
-package com.utad.freetoplaylist.firebase.authentification
+package com.utad.freetoplaylist.data.firebase
 
 import android.util.Log
 import com.google.firebase.auth.ktx.auth

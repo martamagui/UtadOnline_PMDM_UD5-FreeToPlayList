@@ -1,20 +1,17 @@
 package com.utad.freetoplaylist.ui.fragment.home
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.utad.freetoplaylist.data_store.DataStoreManager
-import com.utad.freetoplaylist.firebase.authentification.AuthenticationManager
-import com.utad.freetoplaylist.network.FreeToPlayApi
-import com.utad.freetoplaylist.network.model.GameResponse
+import com.utad.freetoplaylist.data.data_store.DataStoreManager
+import com.utad.freetoplaylist.data.firebase.AuthenticationManager
+import com.utad.freetoplaylist.data.network.FreeToPlayApi
+import com.utad.freetoplaylist.data.network.model.GameResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 data class HomeUIState(
