@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.utad.freetoplaylist.R
 import com.utad.freetoplaylist.databinding.FragmentSignUpBinding
-import com.utad.freetoplaylist.data.firebase.AuthenticationManager
+import com.utad.freetoplaylist.data.firebase.AuthRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,7 +21,7 @@ class SignUpFragment: Fragment() {
     private lateinit var _binding: FragmentSignUpBinding
     private val binding: FragmentSignUpBinding get() = _binding
 
-    private val authManager: AuthenticationManager = AuthenticationManager()
+    private val authManager: AuthRepositoryImpl = AuthRepositoryImpl()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

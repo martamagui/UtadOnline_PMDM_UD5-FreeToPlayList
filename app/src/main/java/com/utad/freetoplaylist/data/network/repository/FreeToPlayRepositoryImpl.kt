@@ -17,6 +17,5 @@ class FreeToPlayRepositoryImpl: FreeToPlayRepository {
     override suspend fun getGameDetails(id: Int): Response<GameDetailResponse> {
         return FreeToPlayApi.service.getGameDetails(id)
     }
-
 }
 

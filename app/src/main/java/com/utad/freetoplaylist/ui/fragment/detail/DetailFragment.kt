@@ -1,4 +1,4 @@
-package com.utad.freetoplaylist.ui.fragment
+package com.utad.freetoplaylist.ui.fragment.detail
 
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.utad.freetoplaylist.R
@@ -15,6 +16,7 @@ import com.utad.freetoplaylist.data.network.FreeToPlayApi
 import com.utad.freetoplaylist.data.network.model.GameDetailResponse
 import com.utad.freetoplaylist.utils.loadPicture
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -27,6 +29,9 @@ class DetailFragment : Fragment() {
     //Guardamos los argumentos de nuestra navegación para recuperar el id del juego clicado
     private val args: DetailFragmentArgs by navArgs()
 
+    //Declaramos nuestro ViewModel
+    private val viewModel: DetailViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,8 +43,28 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeViewModel()
         //Recuperamos de los argumentos de navegación del NavigationComponent el id del viedeojuego
-        getGameDetail(args.id)
+        //y llamamos a la llamada en el viewModel
+        viewModel.getGameDetail(args.id)
+    }
+
+    private fun observeViewModel() {
+        lifecycleScope.launch {
+            viewModel.detailUiState.collect { state ->
+                if (state.isLoading) {
+                    binding.pbDetail.visibility = View.VISIBLE
+                } else {
+                    binding.pbDetail.visibility = View.GONE
+                }
+                if (state.detailData != null) {
+                    showGameData(state.detailData)
+                }
+                if (state.errorMessage != null) {
+                    showRequestError(state.errorMessage)
+                }
+            }
+        }
     }
 
     //region --- UI
@@ -57,30 +82,6 @@ class DetailFragment : Fragment() {
         binding.tvGameDescriptionDetail.text = body.description
     }
     //endregion --- UI
-
-    //region --- Request Retrofit
-    private fun getGameDetail(id: Int) {
-        //Lanzamos una corrutina para llamar a el servicio del detalle
-        lifecycleScope.launch(Dispatchers.IO) {
-            //Llamamos al servicio del detalle
-            val response = FreeToPlayApi.service.getGameDetails(id)
-            //Si la llamada es exitosa y trae información en el body
-            if (response.isSuccessful && response.body() != null) {
-                //Accedemos al Hilo principal para pintar la respuesta
-                withContext(Dispatchers.Main) {
-                    showGameData(response.body()!!)
-                }
-            } else {
-                //Si da error, accedemos al hilo principial y mostramos que hubo un error en la llamada
-                Log.e(" DetailFrg", "Error: ${response.code()}, errorbody: ${response.errorBody()}")
-                withContext(Dispatchers.Main) {
-                    val errorCode = response.code()
-                    showRequestError("$errorCode")
-                }
-            }
-        }
-    }
-    //endregion --- Request Retrofit
 
 
 }

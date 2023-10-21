@@ -1,4 +1,4 @@
-package com.utad.freetoplaylist.ui.fragment
+package com.utad.freetoplaylist.ui.fragment.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,12 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.utad.freetoplaylist.R
-import com.utad.freetoplaylist.data.data_store.DataStoreManager
+import com.utad.freetoplaylist.data.data_store.LocalStorageRepositoryImpl
 import com.utad.freetoplaylist.databinding.FragmentLoginBinding
-import com.utad.freetoplaylist.data.firebase.AuthenticationManager
+import com.utad.freetoplaylist.data.firebase.AuthRepositoryImpl
 import com.utad.freetoplaylist.ui.activity.HomeActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,11 +25,7 @@ class LoginFragment : Fragment() {
     private lateinit var _binding: FragmentLoginBinding
     private val binding: FragmentLoginBinding get() = _binding
 
-    //Instanciamos nuestro manager
-    private val authManager: AuthenticationManager = AuthenticationManager()
-
-    //Creamos una variable que inicializaremos en el onCreate para el DataStoreManager
-    private lateinit var dataStoreManager: DataStoreManager
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,18 +38,23 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataStoreManager = DataStoreManager(requireContext())
+        observerViewModel()
+        viewModel.checkIsUserLogged(requireContext())
 
-        //Si el user está ya logeado, vamos a la home
-        lifecycleScope.launch(Dispatchers.IO) {
-            if (dataStoreManager.isUserLogged()) {
-                withContext(Dispatchers.Main) {
+        setClicks()
+    }
+
+    private fun observerViewModel() {
+        lifecycleScope.launch {
+            viewModel.loginUiState.collect { state ->
+                if (state.wasLoginSuccessfully) {
                     goToHome()
+                }
+                if (state.errorMessage != null) {
+                    Toast.makeText(requireContext(), state.errorMessage, Toast.LENGTH_SHORT).show()
                 }
             }
         }
-
-        setClicks()
     }
 
     //region --- UI
@@ -72,24 +74,7 @@ class LoginFragment : Fragment() {
     private fun doLogin() {
         val email = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString().trim()
-
-        if (isDataValid(email, password)) {
-            //Dentro de una corrutina llamamamos al login
-            lifecycleScope.launch(Dispatchers.IO) {
-                val result = authManager.signInFirebaseEmailAndPassword(email, password)
-                if (result) {
-                    //Si el login fue bien, lo guardamos en el storage y navegamos a la Home
-                    dataStoreManager.setUserLogged(true)
-                    withContext(Dispatchers.Main) {
-                        goToHome()
-                    }
-                } else {
-                    showToast(getString(R.string.login_invalid_credentials))
-                }
-            }
-        } else {
-            showToast(getString(R.string.login_invalid_data))
-        }
+        viewModel.doLogin(email, password)
     }
     //endregion --- Firebase
 
@@ -108,9 +93,7 @@ class LoginFragment : Fragment() {
     //endregion --- Navegación
 
     //region --- Otros
-    private fun isDataValid(email: String, password: String): Boolean {
-        return email.isNotEmpty() && password.isNotEmpty()
-    }
+
     //endregion --- Otros
 
 }

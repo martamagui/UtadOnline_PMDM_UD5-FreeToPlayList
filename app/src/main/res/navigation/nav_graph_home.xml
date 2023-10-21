@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.utad.freetoplaylist.ui.fragment.DetailFragment"
+        android:name="com.utad.freetoplaylist.ui.fragment.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
         <argument

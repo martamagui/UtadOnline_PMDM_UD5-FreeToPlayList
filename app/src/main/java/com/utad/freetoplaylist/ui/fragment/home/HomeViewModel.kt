@@ -3,8 +3,8 @@ package com.utad.freetoplaylist.ui.fragment.home
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.utad.freetoplaylist.data.data_store.DataStoreManager
-import com.utad.freetoplaylist.data.firebase.AuthenticationManager
+import com.utad.freetoplaylist.data.data_store.LocalStorageRepositoryImpl
+import com.utad.freetoplaylist.data.firebase.AuthRepositoryImpl
 import com.utad.freetoplaylist.data.network.FreeToPlayApi
 import com.utad.freetoplaylist.data.network.model.GameResponse
 import com.utad.freetoplaylist.data.network.repository.FreeToPlayRepository
@@ -50,11 +50,9 @@ class HomeViewModel : ViewModel() {
     val isLoggedOut: StateFlow<Boolean> get() = _isLoggedOut
 
     //Creamos una variable que inicializaremos en logOut() para el DataStoreManager
-    private lateinit var dataStoreManager: DataStoreManager
+    private lateinit var dataStoreManager: LocalStorageRepositoryImpl
     //AuthManager
-    private val authManager: AuthenticationManager = AuthenticationManager()
-
-
+    private val authManager: AuthRepositoryImpl = AuthRepositoryImpl()
 
 
     //region --- Peticiones Http
@@ -117,7 +115,7 @@ class HomeViewModel : ViewModel() {
     //region --- Firebase/DataStore
     fun logOut(context: Context) {
         if(this::dataStoreManager.isInitialized == false){
-            dataStoreManager = DataStoreManager(context)
+            dataStoreManager = LocalStorageRepositoryImpl(context)
         }
         viewModelScope.launch(Dispatchers.IO){
             authManager.signOut()

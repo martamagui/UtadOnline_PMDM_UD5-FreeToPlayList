@@ -5,13 +5,16 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
-class AuthenticationManager {
+class AuthRepositoryImpl : AuthRepository {
 
     private val auth = Firebase.auth.apply {
         firebaseAuthSettings.forceRecaptchaFlowForTesting(true)
     }
 
-    suspend fun createUserFirebaseEmailAndPassword(email: String, password: String): Boolean {
+    override suspend fun createUserFirebaseEmailAndPassword(
+        email: String,
+        password: String
+    ): Boolean {
         val result = auth.createUserWithEmailAndPassword(email, password)
         //Esperamos el resultado del registro
         result.await()
@@ -24,7 +27,7 @@ class AuthenticationManager {
         }
     }
 
-    suspend fun signInFirebaseEmailAndPassword(email: String, password: String): Boolean {
+    override suspend fun signInFirebaseEmailAndPassword(email: String, password: String): Boolean {
         val result = auth.signInWithEmailAndPassword(email, password)
         //Esperamos el resulta del login
         result.await()
@@ -37,7 +40,7 @@ class AuthenticationManager {
         }
     }
 
-    fun signOut() {
+    override fun signOut() {
         auth.signOut()
     }
 

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.first
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "FREE_TO_PLAY_DATA_STORE")
 
-class DataStoreManager(private val context: Context) {
+class LocalStorageRepositoryImpl(private val context: Context) :LocalStorageRepository {
 
     private val isLoggedKey = "IS_LOGGED"
 
@@ -20,16 +20,16 @@ class DataStoreManager(private val context: Context) {
         }
     }
 
-    suspend fun isUserLogged(): Boolean {
+    override suspend fun isUserLogged(): Boolean {
         val preferences = context.dataStore.data.first()
         return preferences[booleanPreferencesKey(isLoggedKey)] ?: false
     }
 
-    suspend fun setUserLogged(value: Boolean) {
+    override suspend fun setUserLogged(value: Boolean) {
         putBoolean(isLoggedKey, value)
     }
 
-    suspend fun logOut() {
+    override suspend fun logOut() {
         context.dataStore.edit { editor -> editor.clear() }
     }
 
