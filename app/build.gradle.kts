@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.utad.freetoplaywishlist"
+    namespace = "com.utad.freetoplaylist"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.utad.freetoplaywishlist"
+        applicationId = "com.utad.freetoplaylist"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
