@@ -80,12 +80,6 @@ dependencies {
     val firebaseVersion = "32.2.3"
     implementation(platform("com.google.firebase:firebase-bom:$firebaseVersion"))
 
-    //Firebase - RealTime Database
-    implementation("com.google.firebase:firebase-database-ktx")
-
-    //Firebase - CloudStorage
-    implementation ("com.google.firebase:firebase-storage-ktx:20.2.1")
-
     //Firebase - Authentification
     implementation ("com.google.firebase:firebase-auth-ktx:22.1.2")
 

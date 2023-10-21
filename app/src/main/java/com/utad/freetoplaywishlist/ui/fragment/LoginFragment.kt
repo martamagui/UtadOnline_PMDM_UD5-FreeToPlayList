@@ -71,7 +71,7 @@ class LoginFragment : Fragment() {
     //region --- Firebase
     private fun doLogin() {
         val email = binding.etEmail.text.toString().trim()
-        val password = binding.etPassword.toString().trim()
+        val password = binding.etPassword.text.toString().trim()
 
         if (isDataValid(email, password)) {
             //Dentro de una corrutina llamamamos al login

@@ -7,7 +7,9 @@ import kotlinx.coroutines.tasks.await
 
 class AuthenticationManager {
 
-    private val auth = Firebase.auth
+    private val auth = Firebase.auth.apply {
+        firebaseAuthSettings.forceRecaptchaFlowForTesting(true)
+    }
 
     suspend fun createUserFirebaseEmailAndPassword(email: String, password: String): Boolean {
         val result = auth.createUserWithEmailAndPassword(email, password)
