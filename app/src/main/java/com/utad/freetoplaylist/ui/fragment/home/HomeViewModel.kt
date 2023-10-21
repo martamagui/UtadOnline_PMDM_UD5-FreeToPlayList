@@ -7,6 +7,8 @@ import com.utad.freetoplaylist.data.data_store.DataStoreManager
 import com.utad.freetoplaylist.data.firebase.AuthenticationManager
 import com.utad.freetoplaylist.data.network.FreeToPlayApi
 import com.utad.freetoplaylist.data.network.model.GameResponse
+import com.utad.freetoplaylist.data.network.repository.FreeToPlayRepository
+import com.utad.freetoplaylist.data.network.repository.FreeToPlayRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +24,12 @@ data class HomeUIState(
 )
 
 class HomeViewModel : ViewModel() {
+
+    //Instanciamos nuestro repositorio de la Api
+    //Diciendo que es del tipo de la interfaz (FreeToPlayRepository)
+    // y lo inicializamos con la clase de la implementación (FreeToPlayRepositoryIMPL)
+    private val apiRepository: FreeToPlayRepository = FreeToPlayRepositoryImpl()
+
 
     /*
     //--- Versión de LiveData
@@ -43,9 +51,11 @@ class HomeViewModel : ViewModel() {
 
     //Creamos una variable que inicializaremos en logOut() para el DataStoreManager
     private lateinit var dataStoreManager: DataStoreManager
-
     //AuthManager
     private val authManager: AuthenticationManager = AuthenticationManager()
+
+
+
 
     //region --- Peticiones Http
     fun getGamesRequest() {
@@ -55,7 +65,8 @@ class HomeViewModel : ViewModel() {
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            val response = FreeToPlayApi.service.getGames()
+
+            val response = apiRepository.getGames()
 
             if (response.isSuccessful && response.body() != null
                 && response.body()!!.isNotEmpty()
