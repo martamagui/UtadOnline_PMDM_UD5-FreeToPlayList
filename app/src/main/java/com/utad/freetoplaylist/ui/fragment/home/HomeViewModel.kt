@@ -25,10 +25,40 @@ data class HomeUIState(
 
 class HomeViewModel : ViewModel() {
 
+    private val apiRepository: FreeToPlayRepository = FreeToPlayRepositoryImpl()
+
+    fun getGamesRequest() {
+        _homeState.update {
+            it.copy(isLoading = true)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+
+            val response = apiRepository.getGames()
+
+            if (response.isSuccessful && response.body() != null
+                && response.body()!!.isNotEmpty()
+            ) {
+                //Actualizamos con la lista de juegos recibida
+                _homeState.update {
+                    it.copy(gameList = response.body(), isLoading = false, errorMessage = null)
+                }
+            } else {
+                _homeState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = "Ha habido un error al cargar la petición código: ${response.code()}"
+                    )
+                }
+            }
+        }
+    }
+
+
+
+
     //Instanciamos nuestro repositorio de la Api
     //Diciendo que es del tipo de la interfaz (FreeToPlayRepository)
     // y lo inicializamos con la clase de la implementación (FreeToPlayRepositoryIMPL)
-    private val apiRepository: FreeToPlayRepository = FreeToPlayRepositoryImpl()
 
 
     /*
@@ -56,33 +86,8 @@ class HomeViewModel : ViewModel() {
 
 
     //region --- Peticiones Http
-    fun getGamesRequest() {
-        //Para indicar que está cargando la vista actualizamos el estado
-        _homeState.update {
-            it.copy(isLoading = true)
-        }
 
-        viewModelScope.launch(Dispatchers.IO) {
 
-            val response = apiRepository.getGames()
-
-            if (response.isSuccessful && response.body() != null
-                && response.body()!!.isNotEmpty()
-            ) {
-                //Actualizamos con la lista de juegos recibida
-                _homeState.update {
-                    it.copy(gameList = response.body(), isLoading = false, errorMessage = null)
-                }
-            } else {
-                _homeState.update {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = "Ha habido un error al cargar la petición código: ${response.code()}"
-                    )
-                }
-            }
-        }
-    }
 
     fun getFilteredGames(category: String) {
         //Para indicar que está cargando la vista actualizamos el estado

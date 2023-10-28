@@ -83,3 +83,5 @@ google-services.json
 secret.properties
 app/src/main/java/com/utad/wallu_tad/key_debug_app_validation
 /app/key_debug_app_validation
+app/private_key.pepk
+app/private_key.pepk

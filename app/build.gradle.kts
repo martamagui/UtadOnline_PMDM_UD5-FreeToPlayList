@@ -1,4 +1,3 @@
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -8,28 +7,35 @@ plugins {
 }
 
 android {
-    namespace = "com.utad.freetoplaylist"
+    namespace = "com.utad.freetoplaylist" //Si cambíais el nombre de paquete ya no podréis actualizar la app en la Store más
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.utad.freetoplaylist"
+        applicationId = "com.utad.freetoplaylist" //Este será el id de tu app
         minSdk = 24
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 1 //Código de versión de tu app
+        versionName = "1.0" //Nombre de versión de tu app
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+    buildTypes { //Variantes de compilación de tu app
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            isDebuggable = false //Deberás poner en release/producción este valor
+            //o isDebuggable = false en release dependiendo de la verisón de Gradle que uses.
+        }
+        debug {
+            isDebuggable = true
         }
     }
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -59,37 +65,36 @@ dependencies {
     val navVersion = "2.5.3"
 
     //Retrofit
-    implementation ("com.squareup.retrofit2:retrofit:$retrofit")
-    implementation ("com.squareup.retrofit2:converter-gson:$retrofit")
-    implementation ("com.squareup.okhttp3:logging-interceptor:$interceptor")
+    implementation("com.squareup.retrofit2:retrofit:$retrofit")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit")
+    implementation("com.squareup.okhttp3:logging-interceptor:$interceptor")
 
     //Glide
-    implementation ("com.github.bumptech.glide:glide:$glide")
+    implementation("com.github.bumptech.glide:glide:$glide")
 
     //Navigation
-    implementation ("androidx.navigation:navigation-fragment-ktx:$navVersion")
-    implementation ("androidx.navigation:navigation-ui-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     //Corroutines
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
 
     //DataStore
-    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     //Firebase dependencias básicas
     val firebaseVersion = "32.2.3"
     implementation(platform("com.google.firebase:firebase-bom:$firebaseVersion"))
 
     //Firebase - Authentification
-    implementation ("com.google.firebase:firebase-auth-ktx:22.1.2")
+    implementation("com.google.firebase:firebase-auth-ktx:22.1.2")
 
     //Firebase - Messaging
-    implementation ("com.google.firebase:firebase-messaging-ktx:23.2.1")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.2.1")
 
     //Firebase - Authentification para poder probar auth por SMS sin publicar
     implementation("com.google.firebase:firebase-appcheck-debug")
     implementation("com.google.firebase:firebase-appcheck-ktx")
-
 
 
 }
