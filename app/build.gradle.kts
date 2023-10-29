@@ -7,15 +7,17 @@ plugins {
 }
 
 android {
-    namespace = "com.utad.freetoplaylist" //Si cambíais el nombre de paquete ya no podréis actualizar la app en la Store más
+    namespace = "com.utad.freetoplaylist"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.utad.freetoplaylist" //Este será el id de tu app
+        applicationId = "com.utad.freetoplaylist"
         minSdk = 24
         targetSdk = 33
-        versionCode = 1 //Código de versión de tu app
-        versionName = "1.0" //Nombre de versión de tu app
+
+        versionCode = 2 //Código de versión de tu app
+        versionName = "1.0.1" //Nombre de versión de tu app
+        // cuando actualizamos debemos incrementar ambos
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
