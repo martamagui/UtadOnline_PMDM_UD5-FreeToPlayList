@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.utad.freetoplaywishlist"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.utad.freetoplaywishlist"
